@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ShowSandwichController!{% endblock %}
+
+{% block body %}
+<div>
+    {% for sandwich in Sandwichs %}
+        <div>
+            <li>{{ sandwich.name }}</li>
+            <li>{{ sandwich.price }} €</li>
+            {% for ingredient in sandwich.getIngredients() %}
+                <li>{{ ingredient.name }}</li>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ Title }}{% endblock %}
+
+{% block body %}
+<div>
+    {{ form_start(form) }}
+            <div class="form-group">
+                <h4 class="sr-only">Sandwich Name ?</h4>
+                {{ form_widget(form.name) }}
+                <h4 class="sr-only">He Price</h4>
+                {{ form_widget(form.price) }}
+                <h4 class="sr-only">He ingredient ?</h4>
+                {{ form_widget(form.ingredient) }}
+            </div>
+            {{ form_widget(form.search) }}
+        {{ form_end(form) }}
+</div>
+{% endblock %}
+

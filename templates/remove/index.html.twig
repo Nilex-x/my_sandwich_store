@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ Title }}{% endblock %}
+
+{% block body %}
+<div>
+    {{ form_start(form) }}
+            <div class="form-group">
+                <h4 class="sr-only">{{ content }}</h4>
+                {{ form_widget(form.name) }}
+            </div>
+            {{ form_widget(form.search) }}
+        {{ form_end(form) }}
+</div>
+{% endblock %}

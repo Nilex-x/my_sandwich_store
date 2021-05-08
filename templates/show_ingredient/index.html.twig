@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ShowIngredientController!{% endblock %}
+
+{% block body %}
+<div>
+    {% for ingredient in ingredients %}
+        <li>{{ ingredient.name }}</li>
+    {% endfor %}
+</div>
+{% endblock %}
