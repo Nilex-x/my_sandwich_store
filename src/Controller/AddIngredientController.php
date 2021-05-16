@@ -52,7 +52,7 @@ class AddIngredientController extends AbstractController
                 $sandwich->addIngredient($temp);
             } else {
                 $new_ingredient = true;
-                $ingredient->setName($ingredients);
+                $ingredient->setName($new_name_ingredient);
                 $ingredient->setSandwich($sandwich);
                 $sandwich->addIngredient($ingredient);
             }
