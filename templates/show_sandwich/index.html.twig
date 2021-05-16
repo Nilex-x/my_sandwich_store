@@ -1,16 +1,34 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ShowSandwichController!{% endblock %}
+{% block title %}List{% endblock %}
+
+{% block addnav %}
+<div class="collapse navbar-collapse" id="navbarsExample03">
+    <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+        <li class="nav-item">
+            <a class="nav-link" href="/add"><button type="button" class="btn btn-outline-info">Add a sandwich</button></a>
+        </li>
+    </ul>
+</div>
+{% endblock %}
 
 {% block body %}
-<div>
+<div class="row me-auto">
+    <h1 class="text-center">{{ content }}</h1>
     {% for sandwich in Sandwichs %}
-        <div>
-            <li>{{ sandwich.name }}</li>
-            <li>{{ sandwich.price }} €</li>
-            {% for ingredient in sandwich.getIngredients() %}
-                <li>{{ ingredient.name }}</li>
-            {% endfor %}
+        <div class="col-sm-2 m-2">
+            <div class="card border-dark mb-1 bg-white" style="max-width: 18rem;">
+                <div class="card-body text-center   ">
+                    <h5 class="card-header">{{ sandwich.name }}</h5>
+                    <h5 class="card-text">price: {{ sandwich.price }} €</h5>
+                    <H5 class="card-text">ingredient:</h5>
+                    {% for ingredient in sandwich.getIngredients() %}
+                        <h5 class="card-text">- {{ ingredient.name }}</h5>
+                    {% endfor %}
+                    <a href="update/{{ sandwich.name }}"><button class='btn btn-outline-primary'>modify</button></a>
+                    <a href="remove/{{ sandwich.name }}"><button class='btn btn-outline-danger'>Remove</button></a>
+                </div>
+            </div>
         </div>
     {% endfor %}
 </div>

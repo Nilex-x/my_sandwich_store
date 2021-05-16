@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Sandwich;
 use App\Entity\Ingredient;
+use Psr\Log\LoggerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,58 +18,64 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AddSandwichController extends AbstractController
 {
     /**
-     * @Route("/add/sandwich", name="add_sandwich")
+     * @Route("/add", name="add_sandwich")
      */
-    public function index(Request $request, ValidatorInterface $validator): Response
+    public function index(Request $request): Response
     {
         $form = $this->createFormBuilder()
         ->add('name', TextType::class, [
             'attr' => [
-                'placeholder' => 'Name',
-                'type' => 'text'
+                'class' => 'form-control',
+                'style' => 'width:250px;',
+                'placeholder' => 'Ex: jambon beurre'
             ]
         ])
-        ->add('price', NumberType::class, [
+        ->add('price',TextType::class, [
             'attr' => [
-                'placeholder' => 'Price',
+                'class' => 'form-control',
+                'style' => 'width:100px;',
+                'placeholder' => 'Ex: 10'
             ]
         ])
         ->add('ingredient', TextType::class, [
             'attr' => [
-                'placeholder' => 'ingredient'
+                'class' => 'form-control',
+                'style' => 'width:500px;',
+                'placeholder' => 'Ex: tomato'
             ]
         ])
-        ->add('search', SubmitType::class, ['label' => 'Add'])
+        ->add('search', SubmitType::class, ['label' => 'Add', 'attr' => [ 'class' => 'btn btn-outline-dark']])
         ->getForm();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $change_ingredient = false;
+            $ingredients = $form['ingredient']->getData();
             $name = $form['name']->getData();
             $price = $form['price']->getData();
-            $name_ingredient = $form['ingredient']->getData();
-            $ingredient = $this->getDoctrine()->getRepository(Ingredient::class)->findOneBy([
-                'name' => $name_ingredient,
-            ]);
-            if (!$ingredient) {
-                return $this->render('home/index.html.twig', [
-                    'content' => 'Your ingredient not exist'
-                ]);
-            }
             $sandwich = new Sandwich();
+            $ingredient = new Ingredient();
             $sandwich->setName($name);
             $sandwich->setPrice($price);
-            $ingredient->setSandwich($sandwich);
-            $sandwich->addIngredient($ingredient);
-            $errors = $validator->validate($sandwich);
-            if (count($errors) > 0) {
-                return new Response((string) $errors, 400);
+            $temp = $this->getDoctrine()->getRepository(Ingredient::class)->findOneBy(['name' => $ingredients]);
+            if ($temp) {
+                $temp->setSandwich($sandwich);
+                $sandwich->addIngredient($temp);
+            } else {
+                $change_ingredient = true;
+                $ingredient->setName($ingredients);
+                $ingredient->setSandwich($sandwich);
+                $sandwich->addIngredient($ingredient);
             }
-            $this->getDoctrine()->getManager()->persist($sandwich)->flush();
-            return $this->render('home/index.html.twig', [
-                'content' => $sandwich->GetName()
-            ]);
+            $entitymanager = $this->getDoctrine()->getManager();
+            $entitymanager->persist($sandwich);
+            if ($change_ingredient)
+                $entitymanager->persist($ingredient);
+            $entitymanager->flush();
+            return $this->redirect("/");
         }
         return $this->render('add_sandwich/index.html.twig', [
-            'Title' => 'Add sandwich',
+            'Title' => 'Add',
+            'content' => 'tell me your sandwich would you want ?',
             'form' => $form->createView()
         ]);
     }

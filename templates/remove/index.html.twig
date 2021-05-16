@@ -3,13 +3,15 @@
 {% block title %}{{ Title }}{% endblock %}
 
 {% block body %}
-<div>
+<div class="container">
     {{ form_start(form) }}
-            <div class="form-group">
-                <h4 class="sr-only">{{ content }}</h4>
+            <div class="row height d-flex justify-content-center align-items-center">
+                <h4 class="text-center p-2">{{ content }}</h4>
                 {{ form_widget(form.name) }}
             </div>
-            {{ form_widget(form.search) }}
+            <div class="p-2 text-center">
+                {{ form_widget(form.search) }}
+            </div>
         {{ form_end(form) }}
 </div>
 {% endblock %}
