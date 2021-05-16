@@ -6,7 +6,7 @@
 <div class="collapse navbar-collapse" id="navbarsExample03">
     <ul class="navbar-nav me-auto mb-2 mb-sm-0">
         <li class="nav-item">
-            <a class="nav-link" href="/add"><button type="button" class="btn btn-outline-info">Add a sandwich</button></a>
+            <a class="nav-link" href="/add/sandwich"><button type="button" class="btn btn-outline-info">Add a sandwich</button></a>
         </li>
     </ul>
 </div>
@@ -27,6 +27,8 @@
                     {% endfor %}
                     <a href="update/{{ sandwich.name }}"><button class='btn btn-outline-primary'>modify</button></a>
                     <a href="remove/{{ sandwich.name }}"><button class='btn btn-outline-danger'>Remove</button></a>
+                    <a href="remove/ingredient/{{ sandwich.name }}"><button class='btn btn-outline-danger'>remove ingredient</button></a>
+                    <a href="add/ingredient/{{ sandwich.name }}"><button class='btn btn-outline-success'>add ingredient</button></a>
                 </div>
             </div>
         </div>

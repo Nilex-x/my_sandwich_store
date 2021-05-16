@@ -63,11 +63,15 @@ class UpdateSandwichController extends AbstractController
             if (!hash_equals($ingredients[0]->getName(), $newIngredient)) {
                 $modified = true;
                 $temp = $this->getDoctrine()->getRepository(Ingredient::class)->findOneBy(['name' => $newIngredient]);
-                if (temp) {
+                if ($temp) {
+                    $ingredients[0]->setSandwich(null);
+                    $sandwich->removeIngredient($ingredients[0]);
                     $temp->setSandwich($sandwich);
                     $sandwich->addIngredient($temp);
                 } else {
                     $change_ingredient = true;
+                    $ingredients[0]->setSandwich(null);
+                    $sandwich->removeIngredient($ingredients[0]);
                     $ingredient->setName($newIngredient);
                     $ingredient->setSandwich($sandwich);
                     $sandwich->addIngredient($ingredient);

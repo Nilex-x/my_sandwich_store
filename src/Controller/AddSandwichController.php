@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AddSandwichController extends AbstractController
 {
     /**
-     * @Route("/add", name="add_sandwich")
+     * @Route("/add/sandwich", name="add_sandwich")
      */
     public function index(Request $request): Response
     {
